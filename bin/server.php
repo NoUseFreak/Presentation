@@ -14,13 +14,13 @@ use Ratchet\Wamp\WampServer;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 
-require_once __DIR__ . '/../src/config.php';
+$config = require_once __DIR__ . '/../app/config/config.php';
 
 $server = IoServer::factory(
     new WsServer(
         new WampServer(
             new \Presentation\Presentation()
         )
-    ), $hostPort
+    ), $config->getHostPort()
 );
 $server->run();

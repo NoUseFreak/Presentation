@@ -26,26 +26,35 @@ class Presentation implements \Ratchet\Wamp\WampServerInterface
     {
         switch ($topic->getId()) {
             case 'presentationControl':
-				$topic->broadcast($this->presentationControl($params));
-				$conn->callResult($id, $this->getPosition($params));
+				$this->presentationControl($conn, $id, $topic, $params);
+				$this->returnPosition($conn, $id, $topic, $params);
                 break;
             case 'getPosition':
-				$conn->callResult($id, $this->getPosition($params));
+				$this->returnPosition($conn, $id, $topic, $params);
+				break;
         }
     }
 
-	protected function getPosition($params)
+	/**
+	 * Retrieve the position of the current slide.
+	 *
+	 * @param Conn $conn
+	 * @param $id
+	 * @param $topic
+	 * @param array $params
+	 */
+	protected function returnPosition(Conn $conn, $id, $topic, array $params)
 	{
 		if (is_null($this->slideCount)) {
 			$this->slideCount = $params['total'];
 		}
 
-		return array(
+		$conn->callResult($id, array(
 			'position' => $this->slidePosition,
-		);
+		));
 	}
 
-	protected function presentationControl($params)
+	protected function presentationControl(Conn $conn, $id, $topic, array $params)
 	{
 		switch ($params['action']) {
 			case 'prev':
@@ -62,9 +71,9 @@ class Presentation implements \Ratchet\Wamp\WampServerInterface
 			$this->slidePosition = 0;
 		}
 
-		return array(
+		$topic->broadcast(array(
 			'position' => $this->slidePosition,
-		);
+		));
 	}
 
 	// No need to anything, since WampServer adds and removes subscribers to Topics automatically

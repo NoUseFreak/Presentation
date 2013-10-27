@@ -8,19 +8,20 @@
  * file that was distributed with this source code.
  */
 
-$app->before(function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-	$config = array(
-		'hostIp' => $_SERVER['HTTP_HOST'],
-		'hostPort' => 8123,
-	);
+$config = new \Presentation\Config();
+$config->setHostIp($_SERVER['HTTP_HOST']);
+$config->setHostPort(8123);
 
-	$config['hostUri'] = $config['hostIp'] . ':' . $config['hostPort'];
+if (isset($app)) {
+	$app->before(function (\Symfony\Component\HttpFoundation\Request $request) use ($app, $config) {
+		$app['config'] = $config;
 
-	$app['config'] = $config;
+		$app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
+			$twig->addGlobal('config', $app['config']);
 
-	$app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
-		$twig->addGlobal('config', $app['config']);
+			return $twig;
+		}));
+	});
+}
 
-		return $twig;
-	}));
-});
+return $config;
