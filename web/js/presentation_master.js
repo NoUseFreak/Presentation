@@ -58,6 +58,16 @@ $(function() {
     function slideCount(count) {
         $('div.slide-count').text(count);
     }
+    function slideNext() {
+        press.next(function(count) {
+            slideCount(count+1);
+        });
+    }
+    function slidePrev() {
+        press.prev(function(count) {
+            slideCount(count+1);
+        });
+    }
 
     $('body').on('keydown', function(event) {
         switch (event.keyCode) {
@@ -65,24 +75,20 @@ $(function() {
             case 32:
             case 39:
             case 40:
-                press.next();
+                slideNext();
                 return false;
 
             case 37:
             case 38:
-                press.prev();
+                slidePrev();
                 return false;
         }
     });
     $('a.slide-next').on('click', function() {
-        press.next(function(count) {
-            slideCount(count+1);
-        });
+        slideNext();
     })
     $('a.slide-prev').on('click', function() {
-        press.prev(function(count) {
-            slideCount(count+1);
-        });
+        slidePrev()
     })
     $('a.control').on('click', function() {
         $(this).toggleClass('on');
