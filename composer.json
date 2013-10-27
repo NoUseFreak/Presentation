@@ -5,6 +5,8 @@
         }
     },
     "require": {
-        "cboden/Ratchet": "0.2.*"
+        "cboden/Ratchet": "0.2.*",
+        "silex/silex": "~1.1",
+        "twig/twig": ">=1.8,<2.0-dev"
     }
 }
