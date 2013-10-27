@@ -41,9 +41,9 @@ When creating your own presentation get rid of this file. Start from scratch, it
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script type="text/javascript">
-		var wsHost = '<?php echo $hostUri; ?>';
-	</script>
+    <script type="text/javascript">
+        var wsHost = '<?php echo $hostUri; ?>';
+    </script>
 </head>
 
 <!--
@@ -298,4 +298,3 @@ But you don't have to do it now. Take my advice and take some time off. Make you
 or anything you like to drink. And raise a glass for me ;)
 Cheers!
 -->
-
