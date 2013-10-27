@@ -10,7 +10,7 @@ Start the server in your terminal.
 php bin/server.php
 ```
 
-Open the master by browsing to ```/master.php```.
+Open the master by browsing to ```/index.php/master```.
 Open as many clients as you want by browsing to ```/```.
 
 Note: Surfing to the services by ip will prevent any DNS issues you may encounter.
