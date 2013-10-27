@@ -25,7 +25,7 @@ var conn = new ab.connect(
     , function(session) {
         sess = session;
 
-        sess.call('getPosition').then(function(data) {
+        sess.call('getPosition', {total: api.step.count()}).then(function(data) {
             api.goto(data.position);
         });
 

@@ -17,12 +17,14 @@ var conn = new ab.connect(
 );
 
 function slideNext() {
-    sess.call('presentationControl', {action: 'next'});
-    slideCount(slideCount()+1);
+    sess.call('presentationControl', {action: 'next'}).then(function(data) {
+        slideCount(data.position + 1);
+    });
 }
 function slidePrev() {
-    sess.call('presentationControl', {action: 'prev'});
-    slideCount(slideCount()-1);
+    sess.call('presentationControl', {action: 'prev'}).then(function(data) {
+        slideCount(data.position + 1);
+    });
 }
 function slideCount(count) {
     if (count == undefined) {

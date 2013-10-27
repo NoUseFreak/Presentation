@@ -15,6 +15,7 @@ use Ratchet\ConnectionInterface as Conn;
 class Presentation implements \Ratchet\Wamp\WampServerInterface
 {
     protected $slidePosition = 0;
+	protected $slideCount;
 
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible)
     {
@@ -26,14 +27,19 @@ class Presentation implements \Ratchet\Wamp\WampServerInterface
         switch ($topic->getId()) {
             case 'presentationControl':
 				$topic->broadcast($this->presentationControl($params));
+				$conn->callResult($id, $this->getPosition($params));
                 break;
             case 'getPosition':
-				return $conn->callResult($id, $this->getPosition($params));
+				$conn->callResult($id, $this->getPosition($params));
         }
     }
 
 	protected function getPosition($params)
 	{
+		if (is_null($this->slideCount)) {
+			$this->slideCount = $params['total'];
+		}
+
 		return array(
 			'position' => $this->slidePosition,
 		);
@@ -47,6 +53,13 @@ class Presentation implements \Ratchet\Wamp\WampServerInterface
 				break;
 			default:
 				$this->slidePosition++;
+		}
+
+		if ($this->slidePosition < 0) {
+			$this->slidePosition = $this->slideCount - 1;
+		}
+		elseif ($this->slidePosition >= $this->slideCount) {
+			$this->slidePosition = 0;
 		}
 
 		return array(

@@ -10,10 +10,10 @@
  * Released under the MIT and GPL Licenses.
  *
  * ------------------------------------------------
- * author: Bartek Szopka
- * version: 0.5.3
- * url: http://bartaz.github.com/impress.js/
- * source: http://github.com/bartaz/impress.js/
+ *  author:  Bartek Szopka
+ *  version: 0.5.3
+ *  url:     http://bartaz.github.com/impress.js/
+ *  source:  http://github.com/bartaz/impress.js/
  */
 
 /*jshint bitwise:true, curly:true, eqeqeq:true, forin:true, latedef:true, newcap:true,
@@ -38,8 +38,8 @@
         return function ( prop ) {
             if ( typeof memory[ prop ] === "undefined" ) {
 
-                var ucProp = prop.charAt(0).toUpperCase() + prop.substr(1),
-                    props = (prop + ' ' + prefixes.join(ucProp + ' ') + ucProp).split(' ');
+                var ucProp  = prop.charAt(0).toUpperCase() + prop.substr(1),
+                    props   = (prop + ' ' + prefixes.join(ucProp + ' ') + ucProp).split(' ');
 
                 memory[ prop ] = null;
                 for ( var i in props ) {
@@ -265,7 +265,7 @@
         // STEP EVENTS
         //
         // There are currently two step events triggered by impress.js
-        // `impress:stepenter` is triggered when the step is shown on the
+        // `impress:stepenter` is triggered when the step is shown on the 
         // screen (the transition from the previous one is finished) and
         // `impress:stepleave` is triggered when the step is left (the
         // transition to next step just starts).
@@ -393,8 +393,8 @@
             // set a default initial state of the canvas
             currentState = {
                 translate: { x: 0, y: 0, z: 0 },
-                rotate: { x: 0, y: 0, z: 0 },
-                scale: 1
+                rotate:    { x: 0, y: 0, z: 0 },
+                scale:     1
             };
 
             initialized = true;
@@ -533,7 +533,7 @@
             //
             // I really wanted to make it in more elegant way. The `transitionend` event seemed to be the best way
             // to do it, but the fact that I'm using transitions on two separate elements and that the `transitionend`
-            // event is only triggered when there was a transition (change in the values) caused some bugs and
+            // event is only triggered when there was a transition (change in the values) caused some bugs and 
             // made the code really complicated, cause I had to handle all the conditions separately. And it still
             // needed a `setTimeout` fallback for the situations when there is no transition at all.
             // So I decided that I'd rather make the code simpler than use shiny new `transitionend`.
@@ -550,7 +550,7 @@
 
         // `prev` API function goes to previous step (in document order)
         var prev = function () {
-            var prev = steps.indexOf( activeStep ) - 1;
+            var prev = currentStep() - 1;
             prev = prev >= 0 ? steps[ prev ] : steps[ steps.length-1 ];
 
             return goto(prev);
@@ -558,11 +558,21 @@
 
         // `next` API function goes to next step (in document order)
         var next = function () {
-            var next = steps.indexOf( activeStep ) + 1;
+            var next = currentStep() + 1;
             next = next < steps.length ? steps[ next ] : steps[ 0 ];
 
             return goto(next);
         };
+
+        // `step.index` API function return the current step index
+        var currentStep = function() {
+            return steps.indexOf( activeStep );
+        }
+
+        // `step.count` API function return the current step index
+        var countSteps = function() {
+            return steps.length;
+        }
 
         // Adding some useful classes to step elements.
         //
@@ -614,7 +624,7 @@
 
             window.addEventListener("hashchange", function () {
                 // When the step is entered hash in the location is updated
-                // (just few lines above from here), so the hash change is
+                // (just few lines above from here), so the hash change is 
                 // triggered and we would call `goto` again on the same element.
                 //
                 // To avoid this we store last entered hash and compare.
@@ -623,7 +633,7 @@
                 }
             }, false);
 
-            // START
+            // START 
             // by selecting step defined in url or first step of the presentation
             goto(getElementFromHash() || steps[0], 0);
         }, false);
@@ -635,7 +645,11 @@
             init: init,
             goto: goto,
             next: next,
-            prev: prev
+            prev: prev,
+            step: {
+                index: activeStep,
+                count: countSteps
+            }
         });
 
     };
@@ -673,7 +687,7 @@
     document.addEventListener("impress:init", function (event) {
         // Getting API from event data.
         // So you don't event need to know what is the id of the root element
-        // or anything. `impress:init` event data gives you everything you
+        // or anything. `impress:init` event data gives you everything you 
         // need to control the presentation that was just initialized.
         var api = event.detail.api;
 
@@ -693,14 +707,14 @@
         // [up] [right] / [down] [left] - again common and natural addition,
         // [pgdown] / [pgup] - often triggered by remote controllers,
         // [tab] - this one is quite controversial, but the reason it ended up on
-        // this list is quite an interesting story... Remember that strange part
-        // in the impress.js code where window is scrolled to 0,0 on every presentation
-        // step, because sometimes browser scrolls viewport because of the focused element?
-        // Well, the [tab] key by default navigates around focusable elements, so clicking
-        // it very often caused scrolling to focused element and breaking impress.js
-        // positioning. I didn't want to just prevent this default action, so I used [tab]
-        // as another way to moving to next step... And yes, I know that for the sake of
-        // consistency I should add [shift+tab] as opposite action...
+        //   this list is quite an interesting story... Remember that strange part
+        //   in the impress.js code where window is scrolled to 0,0 on every presentation
+        //   step, because sometimes browser scrolls viewport because of the focused element?
+        //   Well, the [tab] key by default navigates around focusable elements, so clicking
+        //   it very often caused scrolling to focused element and breaking impress.js
+        //   positioning. I didn't want to just prevent this default action, so I used [tab]
+        //   as another way to moving to next step... And yes, I know that for the sake of
+        //   consistency I should add [shift+tab] as opposite action...
         document.addEventListener("keyup", function ( event ) {
             if ( event.keyCode === 9 || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) ) {
                 switch( event.keyCode ) {
@@ -709,7 +723,7 @@
                     case 38: // up
                         api.prev();
                         break;
-                    case 9: // tab
+                    case 9:  // tab
                     case 32: // space
                     case 34: // pg down
                     case 39: // right
@@ -798,4 +812,3 @@
 //
 // I've learnt a lot when building impress.js and I hope this code and comments
 // will help somebody learn at least some part of it.
-
