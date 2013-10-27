@@ -31,7 +31,6 @@ var PresentationMaster = function() {
             if (callback) {
                 callback(data.position);
             }
-            slideCount(data.position + 1);
         });
     }
 
@@ -40,7 +39,6 @@ var PresentationMaster = function() {
             if (callback) {
                 callback(data.position);
             }
-            slideCount(data.position + 1);
         });
     }
 
