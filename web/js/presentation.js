@@ -27,7 +27,6 @@ var conn = new ab.connect(
 
         sess.call('getPosition').then(function(data) {
             api.goto(data.position);
-            console.log(data.position);
         });
 
         sess.subscribe('presentationControl', function(topic, data) {

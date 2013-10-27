@@ -3,6 +3,10 @@ var conn = new ab.connect(
     'ws://' + wsHost
     , function(session) {
         sess = session;
+
+        sess.call('getPosition').then(function(data) {
+            slideCount(data.position);
+        });
     }
     , function(code, reason) {
         console.warn('WebSocket connection closed', code, reason);
