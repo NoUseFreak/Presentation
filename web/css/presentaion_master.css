@@ -1,0 +1,42 @@
+body {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.form-controls {
+    max-width: 370px;
+    margin: 0 auto;
+}
+.form-controls .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-controls .form-control:focus {
+    z-index: 2;
+}
+.form-controls input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-controls input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.form-controls .settings .badge {
+    margin-right: 10px;
+    text-align: center;
+    width: 30px;
+}
+.form-controls .settings .on .badge {
+    background-color: #5CB85C;
+}
+
+.btn-block {
+    height: 120px;
+}
