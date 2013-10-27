@@ -30,14 +30,7 @@ var conn = new ab.connect(
         });
 
         sess.subscribe('presentationControl', function(topic, data) {
-            switch (data.action) {
-                case 'next':
-                    api.next();
-                    break;
-                case 'prev':
-                    api.prev();
-                    break;
-            }
+            api.goto(data.position);
         });
     }
     , function(code, reason) {

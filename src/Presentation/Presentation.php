@@ -48,7 +48,10 @@ class Presentation implements \Ratchet\Wamp\WampServerInterface
 			default:
 				$this->slidePosition++;
 		}
-		return $params;
+
+		return array(
+			'position' => $this->slidePosition,
+		);
 	}
 
 	// No need to anything, since WampServer adds and removes subscribers to Topics automatically
