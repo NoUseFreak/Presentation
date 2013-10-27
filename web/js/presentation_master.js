@@ -5,7 +5,7 @@ var conn = new ab.connect(
         sess = session;
 
         sess.call('getPosition').then(function(data) {
-            slideCount(data.position);
+            slideCount(data.position + 1);
         });
     }
     , function(code, reason) {
