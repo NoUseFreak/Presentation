@@ -25,14 +25,33 @@ class Presentation implements \Ratchet\Wamp\WampServerInterface
     {
         switch ($topic->getId()) {
             case 'presentationControl':
-                $topic->broadcast($params);
+				$topic->broadcast($this->presentationControl($params));
                 break;
             case 'getPosition':
-                $topic->broadcast($this->slidePosition);
+				return $conn->callResult($id, $this->getPosition($params));
         }
     }
 
-    // No need to anything, since WampServer adds and removes subscribers to Topics automatically
+	protected function getPosition($params)
+	{
+		return array(
+			'position' => $this->slidePosition,
+		);
+	}
+
+	protected function presentationControl($params)
+	{
+		switch ($params['action']) {
+			case 'prev':
+				$this->slidePosition--;
+				break;
+			default:
+				$this->slidePosition++;
+		}
+		return $params;
+	}
+
+	// No need to anything, since WampServer adds and removes subscribers to Topics automatically
     public function onSubscribe(Conn $conn, $topic)
     {
     }

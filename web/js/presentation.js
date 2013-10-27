@@ -22,15 +22,15 @@ $(function() {
 
 var conn = new ab.connect(
     'ws://' + wsHost
-    , function(session) {            // Once the connection has been established
+    , function(session) {
         sess = session;
 
         sess.call('getPosition').then(function(data) {
-            console.log(data);
+            api.goto(data.position);
+            console.log(data.position);
         });
 
         sess.subscribe('presentationControl', function(topic, data) {
-            // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
             switch (data.action) {
                 case 'next':
                     api.next();
@@ -41,10 +41,10 @@ var conn = new ab.connect(
             }
         });
     }
-    , function(code, reason) {            // When the connection is closed
+    , function(code, reason) {
         console.warn('WebSocket connection closed', code, reason);
     }
-    , {                       // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
+    , {
         'skipSubprotocolCheck': true
     }
 );
